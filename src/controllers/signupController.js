@@ -6,7 +6,7 @@ const signupController = async (req, res) => {
   const { fullname, email, password } = req.body;
   try {
     // hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     // create our new user
     const newUser = await User.create({ fullname, email, password: hashedPassword });

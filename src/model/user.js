@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt"
 
+
 const userSchema = new mongoose.Schema({
     fullname: {
     type: String,
@@ -15,11 +16,16 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+    minlength:3
     
   },
   createdAt: {
     type: Date,
     default: Date.now
+  },
+ isAdmin: {
+    type: Boolean,
+    required:true
   }
 });
 

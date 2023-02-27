@@ -49,7 +49,7 @@ class blogController {
       errorFunc(res, messageContent, status);
     }
   }
-  //multer
+ 
  
   // create blog
   static async createBlog(req, res) {
@@ -71,37 +71,19 @@ class blogController {
         .catch(err=>console.log(err))
       }
     })}
-  //   const { title, content, author } = req.body;
-   
-  //   try {
-     
-  //     const imageUrl = await cloudinari.uploadPhoto(req,res,req.file);
-  //     const newBlog = await Blog.create({ title, content, author,image:imageUrl.url });
-  //     res.status(201).json({
-  //       message: "New blog created successfully",
-  //       data: newBlog
-  //     });
-  //   } catch (error) 
-  //   {
-  //     console.log(error)
-  //     const messageContent = error.message;
-  //     const status = 500;
-  //     errorFunc(res, messageContent, status);
-  //   }
-  
-  // }
+
 
   // update blog
   static async updateBlog(req, res) {
     try {
-      const { id } = req.params; // using ES6
+      const { id } = req.params; 
 
       // body to be update
-      const { title, content } = req.body;
+      const { title, content,image } = req.body;
 
       // id
       const _id = id;
-      const blogUpdated = await Blog.findByIdAndUpdate(_id, { title, content }, { new: true });
+      const blogUpdated = await Blog.findByIdAndUpdate(_id, { title, content,image}, { new: true });
 
       if (!blogUpdated) {
         return res.status(404).json({
@@ -116,6 +98,7 @@ class blogController {
       }
 
     } catch (error) {
+      console.log(error)
       const messageContent = error.message;
       const status = 500;
       errorFunc(res, messageContent, status);

@@ -3,9 +3,21 @@ import User from "../model/user.js"
 import jwt from "jsonwebtoken"
 
 const secret = "hhhhhh";
+const emailRegrex=/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 
 const loginController= async (req,res)=>{
 const {email, password} = req.body
+ if(email==null||email===""){
+    res.status(403).json({
+      message: "Email field is required"
+    })
+  }
+  else if(!emailRegrex.test(email)){
+    res.status(403).json({
+      message: "please enter a valid email format"
+    })
+  }
+  else
 try {
     //find the user with the email
     const user= await User.findOne({email})
@@ -26,7 +38,7 @@ try {
         // res.status(200).json({
         //     message:"login was successful"
         // })
-        const token = jwt.sign({ userId: user._id }, secret, { expiresIn: '1d' });
+        const token = jwt.sign({ userRole: user.isAdmin }, secret, { expiresIn: '1d' });
 
         res.cookie('token', token, {
           httpOnly: true,
@@ -35,8 +47,8 @@ try {
         res.status(200).json({
           message: 'Login successful',
           token: token
+          
         });
-        
       }  
      }
     

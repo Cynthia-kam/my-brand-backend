@@ -18,6 +18,9 @@ const blogSchema= new mongoose.Schema({
         contentType:String,
         
      },
+     comments: {
+        type: Array
+    },
     createdAt:{
         type:Date,
         default:Date.now

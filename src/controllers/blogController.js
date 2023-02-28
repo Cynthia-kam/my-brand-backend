@@ -1,9 +1,20 @@
+import multer from "multer";
 import Blog from "../model/blog.js"
 import errorFunc from "../utils/errorFunc.js";
 
+const Storage = multer.diskStorage({
+   destination: "uploads",
+   filename:(req, file, cb) =>{
+    cb(null,file.originalname);
+   },
+});
+
+const upload=multer({
+  storage:Storage
+}).single('image')
+
 class blogController {
-  // CRUD (Create, Read, Update, Delete) Operation 
-  // get all blogs
+  
   static async getBlogs(req, res) {
     try {
       const blogs = await Blog.find();
@@ -38,33 +49,41 @@ class blogController {
       errorFunc(res, messageContent, status);
     }
   }
+ 
+ 
   // create blog
   static async createBlog(req, res) {
-    try {
-      const { title, content, author } = req.body;
-      const newBlog = await Blog.create({ title, content, author });
-      res.status(201).json({
-        message: "New blog created successfully",
-        data: newBlog
-      });
-    } catch (error) {
-      const messageContent = error.message;
-      const status = 500;
-      errorFunc(res, messageContent, status);
-    }
-  }
+    upload(req,res,(err)=>{
+      if(err){
+        console.log(err)
+      }else{
+        const newBlog=new Blog({
+          title:req.body.title,
+          author:req.body.author,
+          content:req.body.content,
+          image:{
+            data:req.file.filename,
+            contentType:'image/png'
+          }
+        })
+        newBlog.save()
+        .then(()=>res.send('successfully created a new blog'))
+        .catch(err=>console.log(err))
+      }
+    })}
+
 
   // update blog
   static async updateBlog(req, res) {
     try {
-      const { id } = req.params; // using ES6
+      const { id } = req.params; 
 
       // body to be update
-      const { title, content } = req.body;
+      const { title, content,image } = req.body;
 
       // id
       const _id = id;
-      const blogUpdated = await Blog.findByIdAndUpdate(_id, { title, content }, { new: true });
+      const blogUpdated = await Blog.findByIdAndUpdate(_id, { title, content,image}, { new: true });
 
       if (!blogUpdated) {
         return res.status(404).json({
@@ -79,6 +98,7 @@ class blogController {
       }
 
     } catch (error) {
+      console.log(error)
       const messageContent = error.message;
       const status = 500;
       errorFunc(res, messageContent, status);

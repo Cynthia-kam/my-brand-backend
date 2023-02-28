@@ -13,6 +13,14 @@ const blogSchema= new mongoose.Schema({
         type:String,
         required:true
     },
+    image:{
+        data:Buffer,
+        contentType:String,
+        
+     },
+     comments: {
+        type: Array
+    },
     createdAt:{
         type:Date,
         default:Date.now

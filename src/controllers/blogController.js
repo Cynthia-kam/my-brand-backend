@@ -2,6 +2,7 @@ import multer from "multer";
 import Blog from "../model/blog.js"
 import errorFunc from "../utils/errorFunc.js"
 import cloudinary from "cloudinary"
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import fs from "fs"
 dotenv.config();
@@ -11,20 +12,11 @@ cloudinary.config({
   api_secret:`${process.env.API_SECRET}`
 })
 
-// const Storage = multer.diskStorage({
-//    destination: "uploads",
-//    filename:(req, file, cb) =>{
-//     cb(null,file.originalname);
-//    },
-// });
-
-// const upload=multer({
-//   storage:Storage
-// }).single('image')
-
 class blogController {
+ 
   
   static async getBlogs(req, res) {
+   
     try {
       const blogs = await Blog.find();
       res.status(200).json({

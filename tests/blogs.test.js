@@ -1,25 +1,25 @@
 import app from '../src/server.js'
 import request from 'supertest'
-import User from '../src/model/user.js'
+import { mongoServer } from '../setupTests.cjs';
 
-describe("add a new user",()=>{
-    // let server;
-    // beforeAll(()=>{
-    //     server=app.listen(2000)
-    // })
-    // afterAll((end)=>{
-    //     server.close(end)
-    // })
-   describe("given fullname,email,password and isAdmin",()=>{
-    test ("should respond with 201 status code",async()=>{
-      const res= await request(app).post("/signup").send({
-        fullname:"Marie",
-        email:"abijurucyn@gmail.com",
-        password:123,
-        isAdmin:true
-      })
-      expect(res.status).toBe(403)
+
+describe("test CRUD on blogs",()=>{
+   
+    describe('GET /blogs', () => {
+        beforeAll(async () => {
+            await mongoServer.start();
+          });
+        
+          afterAll(async () => {
+            await mongoServer.stop();
+          });
+        test('it should retrieve all blogs', async () => {
+          const response = await request(app)
+            .get('/blogs')
+            .set('Accept', 'application/json')
+            .expect(200);
+      
+          expect(response.body.length).toBe(11);
+        });
+      });
     })
-   })
-  
-})

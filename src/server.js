@@ -29,6 +29,8 @@ const startServer=()=>app.listen(port);
 
 Promise.all([con(),startServer()])
 .then(()=>{
-    console.log(`MONGODB connected and server listening at http://${host}:${port}`)
+   console.log(`MONGODB connected and server listening at http://${host}:${port}`)
 })
 .catch((err)=>console.log(err))
+ 
+export default app

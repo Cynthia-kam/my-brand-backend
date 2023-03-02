@@ -1,17 +1,26 @@
 import multer from "multer";
 import Blog from "../model/blog.js"
-import errorFunc from "../utils/errorFunc.js";
+import errorFunc from "../utils/errorFunc.js"
+import cloudinary from "cloudinary"
+import dotenv from "dotenv";
+import fs from "fs"
+dotenv.config();
+cloudinary.config({
+  cloud_name:`${process.env.CLOUD_NAME}`,
+  api_key:`${process.env.API_KEY}`,
+  api_secret:`${process.env.API_SECRET}`
+})
 
-const Storage = multer.diskStorage({
-   destination: "uploads",
-   filename:(req, file, cb) =>{
-    cb(null,file.originalname);
-   },
-});
+// const Storage = multer.diskStorage({
+//    destination: "uploads",
+//    filename:(req, file, cb) =>{
+//     cb(null,file.originalname);
+//    },
+// });
 
-const upload=multer({
-  storage:Storage
-}).single('image')
+// const upload=multer({
+//   storage:Storage
+// }).single('image')
 
 class blogController {
   
@@ -53,27 +62,23 @@ class blogController {
  
   // create blog
   static async createBlog(req, res) {
-    upload(req,res,(err)=>{
-      if(err){
-        console.log(err)
-      }else{
-        const newBlog=new Blog({
-          title:req.body.title,
-          author:req.body.author,
-          content:req.body.content,
-          image:{
-            data:req.file.filename,
-            contentType:'image/png'
-          }
-        })
-        newBlog.save()
-        .then(()=>res.send('successfully created a new blog'))
-        .catch(err=>console.log(err))
-      }
-    })}
+    try {
+      const { title, author, content } = req.body;
+      const result = await cloudinary.uploader.upload(req.file.path);
+      const newBlog = await Blog.create({
+        title,
+        author,
+        content,
+        image: result.url,
+      });
+      await newBlog.save();
+      res.send('successfully created a new blog');
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Error creating blog');
+    }
+  }
 
-
-  // update blog
   static async updateBlog(req, res) {
     try {
       const { id } = req.params; 

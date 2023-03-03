@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import allRoutes from "./routes/allRoutes.js"
 import cookieParser from "cookie-parser";
+import response from "./utils/responses.js";
 
 mongoose.set('strictQuery', false);
 
@@ -24,7 +25,7 @@ const con=()=>mongoose.connect(process.env.MONGODB_URL,{
     useNewUrlParser:true,
     useUnifiedTopology:true
 });
-
+app.get('/',(req, res) => response.success(res, 200,"welcome to the my-brand-backend"));
 const startServer=()=>app.listen(port);
 
 Promise.all([con(),startServer()])

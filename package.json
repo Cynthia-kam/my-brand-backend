@@ -2,11 +2,11 @@
   "name": "my-brand-backend",
   "version": "1.0.0",
   "description": "",
+  "main":"src/server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "test": "jest --watchAll --detectOpenHandles --maxWorkers=1",
-    "test:watch": "jest --watch",
+    "test": "jest  --verbose --runInBand --detectOpenHandles --forceExit",
+    "test:watch": "jest",
     "start": "node src/server.js"
   },
   "author": "cynthia-kam",
@@ -27,10 +27,7 @@
     "path": "^0.12.7",
     "uuid": "^9.0.0"
   },
-  "jest": {
-    "testEnvironment": "./setupTests.cjs",
-    "globalTeardown": "./teardownTests.cjs"
-  },
+  
   "devDependencies": {
     "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",

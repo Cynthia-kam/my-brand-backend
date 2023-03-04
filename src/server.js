@@ -1,37 +1,23 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+// import allRoutes from ''
 import allRoutes from "./routes/allRoutes.js"
-import cookieParser from "cookie-parser";
-import response from "./utils/responses.js";
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import response from './utils/responses.js';
 
-mongoose.set('strictQuery', false);
-
-dotenv.config();
 const app = express();
-
-app.use(cors())
-app.use(bodyParser.json())
+dotenv.config();
+app.use(cors());
 app.use(cookieParser())
-
-app.use("/", allRoutes)
+app.use(bodyParser.json())
+app.get('/',(req, res) => response.success(res, 200,"welcome to the back-end of my project"));
+app.use(allRoutes);
 const port = process.env.PORT;
-const host = process.env.HOST;
+mongoose.set('strictQuery', true);
 
-//database connection instances
-const con=()=>mongoose.connect(process.env.MONGODB_URL,{
-    useNewUrlParser:true,
-    useUnifiedTopology:true
-});
-app.get('/',(req, res) => response.success(res, 200,"welcome to the my-brand-backend"));
-const startServer=()=>app.listen(port);
-
-Promise.all([con(),startServer()])
-.then(()=>{
-   console.log(`MONGODB connected and server listening at http://${host}:${port}`)
-})
-.catch((err)=>console.log(err))
+ mongoose.connect(`${process.env.MONGODB_URL}`, { useNewUrlParser: true, useUnifiedTopology: true });
  
-export default app
+ export default app;

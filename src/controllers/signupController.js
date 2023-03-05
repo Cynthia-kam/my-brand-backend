@@ -54,7 +54,7 @@ const signupController = async (req, res) => {
   catch (error) {
     if(error.code===11000){
         return res.status(403).json({
-            message: `User with email ${email} already exists`
+            message: "User already exists"
           })
     }
     console.log(error)

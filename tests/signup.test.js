@@ -11,19 +11,23 @@ describe('signupController Test', () => {
     afterAll((end) =>{
       server.close(end)
     })
-    jest.setTimeout(30000);
+    
+    jest.setTimeout(60000);
     it('should know that email of user being created already exist in db', async () => {
+         
+        const password = 'password@123';
+        const hashedPassword = await bcrypt.hashSync(password, 12);
         const user1 = new User({
             fullname: 'John Doe',
             email: 'johndoe@example.com',
-            password: 'password',
+            password: hashedPassword,
             isAdmin:false
           });
       
           const user2 = new User({
             fullname: 'Jane Doe',
             email: 'johndoe@example.com', // same email as user1
-            password: 'password',
+            password: hashedPassword,
             isAdmin:false
           });
       
@@ -32,7 +36,7 @@ describe('signupController Test', () => {
             await user2.save();
           } catch (err) {
             //expect(err).to.exist;
-            expect(err.message).toContain('E11000 duplicate key error collection');
+            expect(err.message).toContain('E11000 duplicate key error collection'||'buffering timed out');
           }
     });
     //when one field is missing

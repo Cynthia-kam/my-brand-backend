@@ -1,17 +1,20 @@
 import dotenv from 'dotenv';
 import swaggerDoc from './swagger.js';
 import blogs from './blogs/index.js';
+import express from "express";
+import cors from "cors";
 
 const defaults = swaggerDoc.paths;
 
 dotenv.config();
+const app = express();
+app.use(cors())
 
 
-
-const host ='pink-thankful-oyster.cyclic.app'
-    // process.env.NODE_ENV === 'production'
-    //     ? process.env.HOST.split('https://')[1]
-    //     : process.env.HOST.split('http://')[1];
+const host =
+    process.env.NODE_ENV === 'pink-thankful-oyster.cyclic.app'
+        // ? process.env.HOST.split('https://')[1]
+        // : process.env.HOST.split('http://')[1];
 
 const paths = {
     // ...defaults,

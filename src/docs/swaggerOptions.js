@@ -5,6 +5,7 @@ import blogs from './blogs/index.js';
 const defaults = swaggerDoc.paths;
 
 dotenv.config();
+app.use(cors())
 
 
 const host ='pink-thankful-oyster.cyclic.app'

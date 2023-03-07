@@ -64,7 +64,7 @@ class blogController {
         image: result.url,
       });
       await newBlog.save();
-      res.send('successfully created a new blog');
+      res.status(201).send('successfully created a new blog');
     } catch (error) {
       console.log(error);
       res.status(500).send('Error creating blog');

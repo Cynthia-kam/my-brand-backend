@@ -6,8 +6,11 @@ import messageRoute from "./messageRoute.js"
 import commentRoute from "./commentRoute.js"
 import logoutRoute from "./logoutRoute.js"
 
-const router = express.Router()
+import documentation from "../docs/swaggerOptions.js"
+import  SwaggerUi  from "swagger-ui-express";
 
+const router = express.Router()
+router.use("/api-docs", SwaggerUi.serve, SwaggerUi.setup(documentation),)
 // all routes
 router.use("/blogs", blogRoute)
 router.use("/signup",signupRoute )

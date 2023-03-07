@@ -7,6 +7,7 @@ import allRoutes from "./routes/allRoutes.js"
 import cookieParser from "cookie-parser";
 import response from "./utils/responses.js";
 
+
 mongoose.set('strictQuery', false);
 
 dotenv.config();

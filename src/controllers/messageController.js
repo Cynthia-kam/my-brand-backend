@@ -21,5 +21,18 @@ static async createMessage(req, res) {
   
   };
   //get allMessage from database
+  static async getMessages(req, res) {
+   
+    try {
+      const messages = await Message.find();
+      res.status(200).json({
+        data: messages
+      });
+    } catch (error) {
+      const messageContent = error.message;
+      const status = 500;
+      errorFunc(res, messageContent, status);
+    }
+  }
 }
   export default messageController;

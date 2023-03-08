@@ -8,12 +8,13 @@ import logoutRoute from "./logoutRoute.js"
 
 import documentation from "../docs/swaggerOptions.js"
 import  SwaggerUi  from "swagger-ui-express";
+import verifyUser from "../middleware/verifyUser.js"
 
 const router = express.Router()
 router.use("/api-docs", SwaggerUi.serve, SwaggerUi.setup(documentation),)
 // all routes
 router.use("/blogs", blogRoute)
-router.use("/signup",signupRoute )
+router.use("/signup",verifyUser,signupRoute )
 router.use("/login",loginRoute )
 router.use("/message",messageRoute )
 router.use("/comment",commentRoute )

@@ -6,6 +6,7 @@ const router = express.Router();
 // router.get("/", messageController.getMessages);
 // router.get("/:id", messageController.getMessage)
 router.post("/", messageController.createMessage)
+router.get("/", messageController.getMessages)
 // router.delete("/:id", messageController.deleteMessage)
 
 

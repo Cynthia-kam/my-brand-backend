@@ -15,14 +15,14 @@ const app = express();
 app.use(cors())
 
 
-// const host = 
-//     process.env.NODE_ENV === 'production'
-//         ? process.env.HOST.split('https://')[1]
-//         : process.env.HOST.split('http://')[1];
-const host =  'pink-thankful-oyster.cyclic.app'
+const host = 'pink-thankful-oyster.cyclic.app'
+    // process.env.NODE_ENV === 'production'
+    //     ? process.env.HOST.split('https://')[1]
+    //     : process.env.HOST.split('http://')[1];
+
 
 const paths = {
-    // ...defaults,
+    
      ...blogs,
      ...users,
      ...message,
@@ -36,7 +36,7 @@ const documentation = {
     info: {
         version: '1.0.0.',
         title: 'My brand APIs Documentation',
-        description: '',
+        description: 'The MyBraand API is a RESTful API that allows users to interact with MyBrand platform programmatically. The API provides a range of endpoints for managing blogs, creating new users, authenticate and authorize them before performing actions ob blog endpoints.',
     },
     host,
     basePath: '/',

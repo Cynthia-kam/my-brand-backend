@@ -42,6 +42,27 @@ const message = {
                 }
             }
         },
+        get: {
+            tags: ['message'],
+           security: [],
+           summary: 'Get all messages',
+           parameters: [],
+           consumes: ['application/json'],
+           responses:{
+            200: {
+                description: 'successfully retrieved all messages',
+            },
+            400: {
+                description: 'Bad Request'
+            },
+            401: {
+                description: 'Unauthorized'
+            },
+            500: {
+                description: 'Internal Server Error'
+            }
+           }
+       },
     },
    
 };

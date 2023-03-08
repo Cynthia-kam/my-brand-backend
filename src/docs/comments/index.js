@@ -1,7 +1,7 @@
 const comments = {
     '/comment/{id}': {
         post: {
-            tags: ['Blog_comment'],
+            tags: ['Blog'],
             security: [],
             summary: 'comment on a blog',
             parameters: [

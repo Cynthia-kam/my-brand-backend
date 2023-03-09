@@ -15,10 +15,10 @@ const app = express();
 app.use(cors())
 
 
-const host = 'pink-thankful-oyster.cyclic.app'
-    // process.env.NODE_ENV === 'production'
-    //     ? process.env.HOST.split('https://')[1]
-    //     : process.env.HOST.split('http://')[1];
+const host = 
+    process.env.NODE_ENV === 'production'
+        ? process.env.HOST.split('https://')[1]
+        : process.env.HOST.split('http://')[1];
 
 
 const paths = {

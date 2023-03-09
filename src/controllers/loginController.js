@@ -8,12 +8,12 @@ const emailRegrex=/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 const loginController= async (req,res)=>{
 const {email, password} = req.body
  if(email==null||email===""){
-    res.status(403).json({
+    return res.status(403).json({
       message: "Email field is required"
     })
   }
   else if(!emailRegrex.test(email)){
-    res.status(403).json({
+    return res.status(403).json({
       message: "please enter a valid email format"
     })
   }

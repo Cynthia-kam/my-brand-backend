@@ -76,12 +76,13 @@ class blogController {
       const { id } = req.params; 
 
       // body to be update
-      const { title, content,image } = req.body;
+      const { title, content} = req.body;
+      const result = await cloudinary.uploader.upload(req.file.path);
 
       // id
       const _id = id;
-      const blogUpdated = await Blog.findByIdAndUpdate(_id, { title, content,image}, { new: true });
-
+      const blogUpdated = await Blog.findByIdAndUpdate(_id, { title, content,image:result.url}, { new: true });
+      await blogUpdated.save();
       if (!blogUpdated) {
         return res.status(404).json({
           message: `Blog with id: ${id} was not found`

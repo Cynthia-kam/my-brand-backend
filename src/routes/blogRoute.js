@@ -9,7 +9,7 @@ const router = express.Router();
 router.get("/", blogController.getBlogs);
 router.get("/:id", blogController.getBlog)
 router.post("/",verifyUser,upload.single('image'),blogController.createBlog)
-router.put("/:id",verifyUser,blogController.updateBlog)
+router.put("/:id",verifyUser,upload.single('image'),blogController.updateBlog)
 router.delete("/:id",verifyUser,blogController.deleteBlog)
 
 export default router

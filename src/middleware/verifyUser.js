@@ -8,7 +8,7 @@ const verifyUser = (req, res, next) => {
   
   if (!authHeader) {
     return res.status(401).json({
-      message: "No token provided"
+      message: "please login to continue"
     });
   } else {
     // get token

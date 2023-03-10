@@ -4,16 +4,15 @@ import jwt from 'jsonwebtoken';
 const verifyUser = (req, res, next) => {
 
   // check if the request has an authorization header
-  //const authHeader = req.headers.authorization;
-  const authHeader=req.cookies
+  const authHeader = req.headers.authorization;
+  
   if (!authHeader) {
     return res.status(401).json({
       message: "No token provided"
     });
   } else {
     // get token
-   // const token = authHeader.split(" ")[1];
-     const token=req.cookies.token
+   const token = authHeader.split(" ")[1];
     console.log(`our saved token is ${token}`)
     try {
       // vefify the token

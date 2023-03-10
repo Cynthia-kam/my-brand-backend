@@ -1,10 +1,13 @@
 import multer from "multer";
 import Blog from "../model/blog.js"
 import errorFunc from "../utils/errorFunc.js"
-import cloudinary from "cloudinary"
+//import cloudinary from "cloudinary"
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import fs from "fs"
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+
 dotenv.config();
 cloudinary.config({
   cloud_name:`${process.env.CLOUD_NAME}`,
@@ -55,19 +58,36 @@ class blogController {
   // create blog
   static async createBlog(req, res) {
     try {
-      const { title, author, content } = req.body;
-      const result = await cloudinary.uploader.upload(req.file.path);
-      const newBlog = await Blog.create({
-        title,
-        author,
-        content,
-        image: result.url,
+      // const { title, author, content } = req.body;
+      // const result = await cloudinary.uploader.upload(req.file.path);
+      // const newBlog = await Blog.create({
+      //   title,
+      //   author,
+      //   content,
+      //   image: result.url,
+      // });
+      // await newBlog.save();
+      // res.status(201).send('successfully created a new blog');
+      const storage = new CloudinaryStorage({
+        cloudinary,
+        params:{
+          folder: 'blogImage',
+          allowed_formats: ['jpg', 'png']
+        }
       });
-      await newBlog.save();
-      res.status(201).send('successfully created a new blog');
+    const upload = multer({ storage }).single('image');
+    upload(req, res,async (err) =>{
+        if(err){
+         return console.log(err)
+        }
+    const { title, author, content, image } = req.body
+    const newBlog = await Blog.create({ author, title, content, image })
+   
+    res.status(201).send('successfully created a new blog');
+    })
     } catch (error) {
       console.log(error);
-      res.status(500).send('Error creating blog');
+      res.status(500).send('internal server error while creating a blog');
     }
   }
 

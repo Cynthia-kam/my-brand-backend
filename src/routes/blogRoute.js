@@ -2,7 +2,7 @@ import express from "express";
 import blogController from "../controllers/blogController.js";
 import verifyUser from "../middleware/verifyUser.js";
 import multer from "multer";
-// const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
 

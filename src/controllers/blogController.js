@@ -80,24 +80,28 @@ class blogController {
         if(err){
          return console.log(err)
         }
-    const result = await cloudinary.uploader.upload(req.file.path);
-    const { title, author, content} = req.body
+    
+    const { title, author, content,image} = req.body
     const newBlog = await Blog.create({
       title,
       author,
       content,
-      image: result.url,
+      image
     });
     await newBlog.save();
-   
-    res.status(201).send('successfully created a new blog');
-    console.log(result.url)
-    })
-    } catch (error) {
+    console.log(newBlog)
+  })
+    return res.status(201).json({
+      message: "Blog created Successfully",
+     
+    } )
+  }
+    catch (error) {
       console.log(error);
       res.status(500).send('internal server error while creating a blog');
     }
   }
+  
 //update a blog
   static async updateBlog(req, res) {
     try {
@@ -109,7 +113,7 @@ class blogController {
 
       // id
       const _id = id;
-      const blogUpdated = await Blog.findByIdAndUpdate(_id, { title, content,image:result.url}, { new: true });
+      const blogUpdated = await Blog.findByIdAndUpdate(_id, { title,author,content,image:result.url}, { new: true });
       await blogUpdated.save();
       if (!blogUpdated) {
         return res.status(404).json({

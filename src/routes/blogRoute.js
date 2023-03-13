@@ -10,6 +10,6 @@ router.get("/", blogController.getBlogs);
 router.get("/:id", blogController.getBlog)
 router.post("/",blogController.createBlog)
 router.put("/:id",blogController.updateBlog)
-router.delete("/:id",blogController.deleteBlog)
+router.delete("/:id",verifyUser,blogController.deleteBlog)
 
 export default router
